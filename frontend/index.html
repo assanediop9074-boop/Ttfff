@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Assane Downloader - Téléchargez vos vidéos préférées depuis YouTube, TikTok, Instagram et plus">
+    <meta name="theme-color" content="#FF0050">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <title>🎬 Assane Downloader</title>
+    
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%23FF0050' width='100' height='100'/><text x='50' y='70' font-size='60' font-weight='bold' fill='white' text-anchor='middle' font-family='Arial'>⬇</text></svg>">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo-section">
+                <div class="logo">🎬</div>
+                <h1>Assane Downloader</h1>
+            </div>
+            <button class="theme-toggle" id="themeToggle" aria-label="Basculer le thème">
+                <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                </svg>
+                <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="container">
+        <!-- Input Section -->
+        <section class="input-section">
+            <div class="input-group">
+                <div class="input-wrapper">
+                    <input 
+                        type="text" 
+                        id="videoUrl" 
+                        class="url-input" 
+                        placeholder="Collez le lien vidéo ici..."
+                        autocomplete="off"
+                    >
+                    <button class="paste-btn" id="pasteBtn" title="Coller du presse-papiers">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                            <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+                        </svg>
+                    </button>
+                    <button class="clear-btn" id="clearBtn" title="Effacer le champ">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
+                <button class="validate-btn" id="validateBtn">Vérifier</button>
+            </div>
+            <div class="url-status" id="urlStatus"></div>
+        </section>
+
+        <!-- Video Info Section -->
+        <section class="video-info-section" id="videoInfoSection" style="display: none;">
+            <div class="video-card">
+                <img src="" alt="Miniature" class="video-thumbnail" id="videoThumbnail">
+                <div class="video-details">
+                    <h2 id="videoTitle">Titre de la vidéo</h2>
+                    <p id="videoDuration" class="video-duration"></p>
+                    <p id="videoUploader" class="video-uploader"></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Download Options Section -->
+        <section class="download-section" id="downloadSection" style="display: none;">
+            <div class="options-group">
+                <div class="option-group">
+                    <label for="formatSelect">Format:</label>
+                    <select id="formatSelect" class="select-input">
+                        <option value="mp4">MP4 (Vidéo)</option>
+                        <option value="mp3">MP3 (Audio)</option>
+                    </select>
+                </div>
+
+                <div class="option-group">
+                    <label for="qualitySelect">Qualité:</label>
+                    <select id="qualitySelect" class="select-input">
+                        <option value="best">Meilleure</option>
+                        <option value="1080">1080p</option>
+                        <option value="720">720p</option>
+                        <option value="480">480p</option>
+                        <option value="360">360p</option>
+                    </select>
+                </div>
+            </div>
+
+            <button class="download-btn" id="downloadBtn">⬇️ Télécharger</button>
+        </section>
+
+        <!-- Downloads List Section -->
+        <section class="downloads-section" id="downloadsSection" style="display: none;">
+            <h2>Téléchargements en cours</h2>
+            <div class="downloads-list" id="downloadsList"></div>
+        </section>
+
+        <!-- History Section -->
+        <section class="history-section">
+            <div class="history-header">
+                <h2>📜 Historique des téléchargements</h2>
+                <div class="history-controls">
+                    <button class="history-btn" id="toggleHistoryBtn">Afficher</button>
+                    <button class="history-btn clear" id="clearHistoryBtn">Effacer tout</button>
+                </div>
+            </div>
+            <div class="history-list" id="historyList" style="display: none;">
+                <div class="empty-state">
+                    <p>Aucun téléchargement encore</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Download Item Template (Hidden) -->
+    <template id="downloadItemTemplate">
+        <div class="download-item" data-id="">
+            <div class="download-header">
+                <span class="download-filename"></span>
+                <span class="download-status"></span>
+            </div>
+            <div class="download-progress-container">
+                <div class="download-progress-bar">
+                    <div class="download-progress-fill"></div>
+                </div>
+                <div class="download-progress-info">
+                    <span class="download-percentage">0%</span>
+                    <span class="download-speed">0 MB/s</span>
+                    <span class="download-eta">Calcul...</span>
+                </div>
+            </div>
+            <div class="download-actions">
+                <button class="btn-action btn-pause" title="Pause">⏸️</button>
+                <button class="btn-action btn-resume" title="Reprendre" style="display: none;">▶️</button>
+                <button class="btn-action btn-cancel" title="Annuler">✖️</button>
+                <button class="btn-action btn-share" title="Partager">📤</button>
+            </div>
+        </div>
+    </template>
+
+    <!-- History Item Template (Hidden) -->
+    <template id="historyItemTemplate">
+        <div class="history-item" data-id="">
+            <div class="history-info">
+                <p class="history-filename"></p>
+                <p class="history-time"></p>
+            </div>
+            <div class="history-actions">
+                <button class="btn-small btn-download" title="Télécharger à nouveau">⬇️</button>
+                <button class="btn-small btn-delete" title="Supprimer">🗑️</button>
+            </div>
+        </div>
+    </template>
+
+    <!-- Loading Spinner -->
+    <div class="spinner" id="spinner" style="display: none;"></div>
+
+    <!-- Notification Toast -->
+    <div class="notification" id="notification">
+        <span id="notificationText"></span>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
